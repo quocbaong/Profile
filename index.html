@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nguyễn Quốc Bảo - Profile</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h2 class="logo">My Profile</h2>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-particles" id="particles"></div>
+        <div class="container hero-content">
+            <div class="hero-text animate-fade-in">
+                <h1 class="hero-title">
+                    Hello, My name is
+                    <span class="gradient-text typing-text" id="typing"></span>
+                </h1>
+                <p class="hero-description">
+                    A passionate student aspiring to become a Software Developer
+                </p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">
+                        <i class="fas fa-briefcase"></i> Projects
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="fas fa-envelope"></i> Contact
+                    </a>
+                </div>
+                <div class="social-links">
+                    <a href="https://github.com/quocbaong" target="_blank" class="social-link">
+                        <i class="fab fa-github" ></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/ngquocbao-dev106/" target="_blank" class="social-link">
+                        <i class="fab fa-linkedin" ></i>
+                    </a>
+                    <a href="https://www.instagram.com/quocbao.106/" target="_blank" class="social-link">
+                        <i class="fab fa-instagram" ></i>
+                    </a>
+                    <a href="https://www.facebook.com/qbao.henry" target="_blank" class="social-link">
+                        <i class="fab fa-facebook" ></i>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image animate-slide-in">
+                <div class="image-container">
+                    <img src="images/profile.jpg" alt="Profile Picture" class="profile-img">
+                    <div class="image-bg"></div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-down">
+            <a href="#about">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">About</span>
+            </div>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="images/about.jpg" alt="About Me" class="about-img">
+                    <div class="about-decoration"></div>
+                </div>
+                <div class="about-text">
+                    <h3>My Story</h3>
+                    <p>
+                        I’m a fourth-year IT student on my journey to becoming a software developer.
+                    </p>
+                    <p>
+                        I’m passionate about technology and enjoy creating solutions that make life better.
+                    </p>
+                    <p>
+                        Through projects such as websites, mobile apps, and backend systems, I’ve developed strong logical thinking, teamwork, and problem-solving skills.
+                    </p>
+                    <p>
+                        I aspire to work in a professional environment where I can learn, grow, and contribute through technology.
+                    </p>
+                    <div class="about-info">
+                        <div class="info-item">
+                            <i class="fas fa-birthday-cake"></i>
+                            <div>
+                                <strong>Birthday:</strong>
+                                <span>June 10, 2004</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <strong>Location:</strong>
+                                <span>Ho Chi Minh City, Vietnam</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <strong>Email:</strong>
+                                <span>nbao76296@gmail.com</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-briefcase"></i>
+                            <div>
+                                <strong>Occupation:</strong>
+                                <span>Full Stack Developer Intern</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#contact" class="btn btn-primary">
+                        <i class="fas fa-download"></i> Download CV
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Expertise</span>
+                <h2 class="section-title">Skills</h2>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3><i class="fas fa-code"></i> Frontend</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span class="skill-name">HTML/CSS</span>
+                                <span class="skill-percent">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="75"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span class="skill-name">JavaScript</span>
+                                <span class="skill-percent">70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="70"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span class="skill-name">React.js</span>
+                                <span class="skill-percent">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="75"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span class="skill-name">Vue.js</span>
+                                <span class="skill-percent">50%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="50"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-server"></i> Backend</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span class="skill-name">Node.js</span>
+                                <span class="skill-percent">70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="70"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span class="skill-name">Java</span>
+                                <span class="skill-percent">82%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="82"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span class="skill-name">MongoDB</span>
+                                <span class="skill-percent">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="75"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span class="skill-name">SQL Server</span>
+                                <span class="skill-percent">70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="70"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-tools"></i> Tools & Others</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span class="skill-name">Git/GitHub</span>
+                                <span class="skill-percent">92%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="92"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span class="skill-name">Docker</span>
+                                <span class="skill-percent">65%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="65"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span class="skill-name">UI/UX Design</span>
+                                <span class="skill-percent">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="75"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tech Stack Icons -->
+            <div class="tech-stack">
+                <h3 class="tech-title">Technologies I Use</h3>
+                <div class="tech-icons">
+                    <div class="tech-icon" title="HTML5">
+                        <i class="fab fa-html5"></i>
+                    </div>
+                    <div class="tech-icon" title="CSS3">
+                        <i class="fab fa-css3-alt"></i>
+                    </div>
+                    <div class="tech-icon" title="JavaScript">
+                        <i class="fab fa-js"></i>
+                    </div>
+                    <div class="tech-icon" title="React">
+                        <i class="fab fa-react"></i>
+                    </div>
+                    <div class="tech-icon" title="Vue.js">
+                        <i class="fab fa-vuejs"></i>
+                    </div>
+                    <div class="tech-icon" title="Node.js">
+                        <i class="fab fa-node"></i>
+                    </div>
+                    <div class="tech-icon" title="Java">
+                        <i class="fab fa-java"></i>
+                    </div>
+                    <div class="tech-icon" title="Spring Boot">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="tech-icon" title="Figma">
+                        <i class="fab fa-figma"></i>
+                    </div>
+                    <div class="tech-icon" title="Linux">
+                        <i class="fab fa-linux"></i>
+                    </div>
+                    <div class="tech-icon" title="Git">
+                        <i class="fab fa-git-alt"></i>
+                    </div>
+                    <div class="tech-icon" title="Docker">
+                        <i class="fab fa-docker"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">My Projects</span>
+            </div>
+            
+            <!-- Filter Buttons -->
+            <div class="project-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="web">Web App</button>
+                <button class="filter-btn" data-filter="mobile">Mobile</button>
+                <button class="filter-btn" data-filter="design">Design</button>
+            </div>
+            
+            <!-- Projects Grid -->
+            <div class="projects-grid">
+                <div class="project-card" data-category="web">
+                    <div class="project-image">
+                        <img src="images/project_1.png" alt="Train ticket sales managements">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/quocbaong/qlbanvetau" class="project-link" title="View Details">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="https://github.com/quocbaong/qlbanvetau" class="project-link" title="View Code">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Train ticket sales management</h3>
+                        <p class="project-description">
+                            "Train ticket sales management" system with full functions of buying tickets, exchanging tickets, returning tickets, and revenue statistics.                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Java</span>
+                            <span class="tag">SQL Server</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="web">
+                    <div class="project-image">
+                        <img src="images/project2.jpg" alt="Download Video Pro">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/quocbaong/download_video" class="project-link" title="View Details">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="https://github.com/quocbaong/download_video" class="project-link" title="View Code">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Download Video Pro
+                        </h3>
+                        <p class="project-description">
+                            Tool that helps you download videos from social media platforms without logo quickly. This application allows you to download all videos to your device in just 3-5 short minutes.                        </p>
+                        <div class="project-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">HTML</span>
+                            <span class="tag">CSS</span>
+                            <span class="tag">TypeScript</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="web">
+                    <div class="project-image">
+                        <img src="images/project_3.jpg" alt="Food Delivery Website">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://fooddeliverywebsite-two.vercel.app/" class="project-link" title="View Details">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="https://github.com/quocbaong/Food_Delivery_Website" class="project-link" title="View Code">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Food Delivery Website</h3>
+                        <p class="project-description">
+                            Food Del food ordering website is a modern online food ordering platform, 
+                            allowing users to easily explore diverse menus, order quickly, 
+                            and provide an admin interface for managing dishes and orders in an intuitive and convenient way.                        
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">ReactJS</span>
+                            <span class="tag">Tailwind</span>
+                            <span class="tag">JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="mobile">
+                    <div class="project-image">
+                        <img src="images/project_4.png" alt="VipSnaper App">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/buimanhhieu/ViperSnap_Project" class="project-link" title="View Details">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="https://github.com/buimanhhieu/ViperSnap_Project" class="project-link" title="View Code">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">VipSnaper App</h3>
+                        <p class="project-description">
+                            An application that helps users share their moments with their group of friends.
+                                                </p>
+                        <div class="project-tags">
+                            <span class="tag">React Native</span>
+                            <span class="tag">Expo</span>
+                            <span class="tag">MongoDB</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card" data-category="mobile">
+                    <div class="project-image">
+                        <img src="images/project5.jpg" alt="Project 5">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/quocbaong/Travelling-App" class="project-link" title="View Details">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="https://github.com/quocbaong/Travelling-App" class="project-link" title="View Code">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Traveling App</h3>
+                        <p class="project-description">
+                            An application that helps users who love to travel to search for famous and attractive tourist destinations and book tours.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">React Native</span>
+                            <span class="tag">Expo</span>
+                            <span class="tag">MongoDB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="project-card" data-category="design">
+                    <div class="project-image">
+                        <img src="images/project4.jpg" alt="Project 4">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link" title="View Details">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="project-link" title="View Code">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">UI/UX Design System</h3>
+                        <p class="project-description">
+                            Comprehensive design system with components, patterns, and guidelines for products.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Figma</span>
+                            <span class="tag">Design</span>
+                            <span class="tag">Prototyping</span>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Contact</span>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Address</h3>
+                        <p>Ho Chi Minh City, Vietnam</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Email</h3>
+                        <p>nbao76296@gmail.com</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3>Phone</h3>
+                        <p>+84 779456610</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Website</h3>
+                        <p>www.myportfolio.com</p>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper">
+                    <form class="contact-form" id="contact-form">
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Your Name" required>
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-input" placeholder="Your Email" required>
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Subject" required>
+                            <i class="fas fa-tag"></i>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-input" placeholder="Your Message" rows="5" required></textarea>
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MyPortfolio</h3>
+                    <p>Creating amazing web experiences with passion and creativity.</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/quocbaong" class="footer-social-link"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/ngquocbao-dev106/" class="footer-social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.instagram.com/quocbao.106/" class="footer-social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/qbao.henry" class="footer-social-link"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#skills">Skills</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">UI/UX Design</a></li>
+                        <li><a href="#">Mobile Apps</a></li>
+                        <li><a href="#">Consulting</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe to receive the latest news</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email">
+                        <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scroll-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
