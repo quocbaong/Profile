@@ -27,7 +27,7 @@ This is my personal portfolio website built with pure HTML, CSS, and JavaScript.
 **Developer:** Nguyễn Quốc Bảo  
 **Location:** Ho Chi Minh City, Vietnam  
 **Email:** nbao76296@gmail.com  
-**Phone:** +84 779456610
+**Phone:** 0779456610
 
 ## ✨ Features
 
