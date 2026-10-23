@@ -39,3 +39,7 @@ node_modules/
 notes.txt
 TODO.txt
 
+ 
+# Next.js build output
+.next/
+out/
