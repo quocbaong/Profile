@@ -1,0 +1,50 @@
+name: Build and Deploy to Plesk Hosting
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Next.js (Standalone)
+        run: npm run build
+
+      - name: Prepare Standalone Deployment Package
+        run: |
+          mkdir -p deploy_pkg
+          # 1. Copy standalone server and runtime dependencies
+          cp -r .next/standalone/* deploy_pkg/
+          # 2. Copy static files into standalone's .next folder
+          mkdir -p deploy_pkg/.next/static
+          cp -r .next/static/* deploy_pkg/.next/static/
+          # 3. Copy public assets
+          cp -r public deploy_pkg/
+          # 4. Create restart trigger for Plesk Node.js Passenger
+          mkdir -p deploy_pkg/tmp
+          touch deploy_pkg/tmp/restart.txt
+
+      - name: Deploy to Plesk via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./deploy_pkg/
+          server-dir: /httpdocs/
+          dangerous-clean-slate: false
