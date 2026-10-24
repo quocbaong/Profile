@@ -14,7 +14,7 @@ export default function ServiceSection({ scrollTo }: ServiceSectionProps) {
     <div id="service" className="service-area section-padding">
       <div className="borderd"></div>
       <div className="container">
-        <div className="col-l2">
+        <div className="col-12">
           <div className="section-title section-title2 text-center">
             <span>What I am Expert In</span>
             <h2>My Service</h2>

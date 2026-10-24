@@ -39,7 +39,7 @@ body {
     width: 320px;
     height: 100vh;
     background: #111111;
-    z-index: 999;
+    z-index: 9999 !important;
     padding: 40px 44px 40px 52px;
     display: flex;
     flex-direction: column;
@@ -133,11 +133,17 @@ body {
 
 /* Main Content Shift */
 .br-app { padding-left: 0 !important; }
-.page-wrapper { margin-left: 320px !important; overflow-x: hidden;
-    margin-left: 320px;
+.page-wrapper {
     min-height: 100vh;
     position: relative;
     background: #151515;
+    overflow-x: hidden;
+}
+
+@media (min-width: 992px) {
+    .page-wrapper {
+        margin-left: 320px !important;
+    }
 }
 
 /* Vertical Right Social Bar - Dark Capsule UI with Whole-Bar Zoom Hover */
@@ -269,6 +275,7 @@ body {
         padding: 0 25px;
         border-right: none;
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        z-index: 9999 !important;
     }
     .site-header .sidebar-content-wrap {
         display: flex;
@@ -290,26 +297,51 @@ body {
         width: 100%;
         height: calc(100vh - 70px);
         background: #111111;
-        padding: 40px;
+        padding: 30px 25px;
         transition: left 0.3s ease;
         align-items: flex-start;
         text-align: left;
+        z-index: 1000;
+        overflow-y: auto;
     }
     .site-header .nav-menu.mobile-open {
         left: 0;
     }
     .site-header .nav-menu li {
         text-align: left;
+        width: 100%;
     }
     .site-header .nav-menu li a {
         justify-content: flex-start;
+        font-size: 18px;
+        padding: 10px 0;
+        width: 100%;
     }
     .page-wrapper {
-        margin-left: 0;
-        padding-top: 70px;
+        margin-left: 0 !important;
+        padding-top: 70px !important;
+        width: 100% !important;
+        max-width: 100vw !important;
     }
     .right-social-bar {
-        display: none;
+        display: none !important;
+    }
+    .tp-about-wrap {
+        margin-bottom: 35px;
+        max-width: 450px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .tp-contact-pg-section .office-info {
+        margin-bottom: 40px !important;
+    }
+    .tp-contact-pg-section .office-info .col .office-info-item {
+        margin-bottom: 20px !important;
+    }
+    .tp-contact-pg-section {
+        min-height: auto !important;
+        padding-top: 60px !important;
+        padding-bottom: 90px !important;
     }
 }
 
@@ -672,6 +704,74 @@ h1, h2, h3, h4, h5, h6,
     color: #111111 !important;
     border-color: #ffffff !important;
     box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2) !important;
+}
+
+@media (max-width: 991px) {
+    .hero-style-1 {
+        height: auto;
+        min-height: calc(100vh - 70px);
+    }
+    .hero-style-1 .hero-slider {
+        height: auto;
+        min-height: calc(100vh - 70px);
+    }
+    .hero-style-1 .slide {
+        height: auto;
+        min-height: calc(100vh - 70px);
+        padding: 50px 0;
+        background-position: 78% center !important;
+        background-size: cover !important;
+    }
+    .hero-style-1 .slide::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(20, 20, 20, 0.88) 0%, rgba(20, 20, 20, 0.65) 50%, rgba(20, 20, 20, 0.35) 100%);
+        z-index: 1;
+        pointer-events: none;
+    }
+    .hero-style-1 .slide .container {
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+        margin: 0 !important;
+        z-index: 2;
+    }
+    .hero-style-1 .slide-caption {
+        text-align: left !important;
+        padding: 0 !important;
+    }
+    .hero-style-1 .slide-subtitle h4 {
+        font-size: 16px !important;
+        letter-spacing: 2px !important;
+        margin-bottom: 12px !important;
+    }
+    .hero-style-1 .slide-title h2 {
+        font-size: clamp(2.2rem, 7vw, 3.2rem) !important;
+        line-height: 1.2 !important;
+        margin-top: 10px !important;
+        margin-bottom: 25px !important;
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .hero-style-1 .slide {
+        padding: 40px 0;
+        background-position: 80% center !important;
+    }
+    .hero-style-1 .slide .container {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+    .hero-style-1 .slide-title h2 {
+        font-size: 2.2rem !important;
+        line-height: 1.22 !important;
+    }
+    .hero-style-1 .slide-subtitle h4 {
+        font-size: 14px !important;
+        letter-spacing: 1.5px !important;
+    }
 }
 
 /* ========================================================
