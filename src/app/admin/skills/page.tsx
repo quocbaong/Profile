@@ -145,12 +145,12 @@ export default function AdminSkillsPage() {
                       width: '40px',
                       height: '40px',
                       borderRadius: '0.5rem',
-                      backgroundColor: `${sk.color}15`,
-                      border: `1px solid ${sk.color}40`,
+                      backgroundColor: (sk.color === '#ffffff' || sk.color === '#fff') ? '#f1f5f9' : `${sk.color}18`,
+                      border: `1px solid ${(sk.color === '#ffffff' || sk.color === '#fff') ? '#cbd5e1' : sk.color + '40'}`,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: sk.color,
+                      color: (sk.color === '#ffffff' || sk.color === '#fff') ? '#0f172a' : sk.color,
                     }}>
                       <TechIcon name={sk.name} icon={sk.icon} />
                     </div>

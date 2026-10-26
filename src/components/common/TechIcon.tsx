@@ -3,7 +3,17 @@
 import React, { useState, useEffect } from 'react';
 import { getProjectImageUrl } from '@/lib/apiClient';
 
-export default function TechIcon({ name, icon }: { name: string; icon?: string }) {
+export default function TechIcon({
+  name,
+  icon,
+  monochrome = false,
+  isHovered = false,
+}: {
+  name: string;
+  icon?: string;
+  monochrome?: boolean;
+  isHovered?: boolean;
+}) {
   const [imgError, setImgError] = useState(false);
 
   useEffect(() => {
@@ -17,7 +27,14 @@ export default function TechIcon({ name, icon }: { name: string; icon?: string }
           src={getProjectImageUrl(icon)}
           alt={name}
           onError={() => setImgError(true)}
-          style={{ width: '36px', height: '36px', objectFit: 'contain' }}
+          style={{
+            width: '36px',
+            height: '36px',
+            objectFit: 'contain',
+            filter: monochrome ? (isHovered ? 'none' : 'brightness(0) invert(1)') : 'none',
+            opacity: monochrome ? (isHovered ? 1 : 0.9) : 1,
+            transition: 'filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease',
+          }}
         />
       );
     }
@@ -32,7 +49,7 @@ export default function TechIcon({ name, icon }: { name: string; icon?: string }
     case 'go':
     case 'golang':
       return (
-        <svg role="img" viewBox="0 0 24 24" width="34" height="34" fill="#00ADD8">
+        <svg role="img" viewBox="0 0 24 24" width="34" height="34" fill="currentColor">
           <path d="M1.811 10.231c-.047 0-.058-.023-.035-.059l.246-.315c.023-.035.081-.058.128-.058h4.172c.046 0 .058.035.035.07l-.199.303c-.023.036-.082.07-.117.07zM.047 11.306c-.047 0-.059-.023-.035-.058l.245-.316c.023-.035.082-.058.129-.058h5.328c.047 0 .07.035.058.07l-.093.28c-.012.047-.058.07-.105.07zm2.828 1.075c-.047 0-.059-.035-.035-.07l.163-.292c.023-.035.07-.07.117-.07h2.337c.047 0 .07.035.07.082l-.023.28c0 .047-.047.082-.082.082zm12.129-2.36c-.736.187-1.239.327-1.963.514-.176.046-.187.058-.34-.117-.174-.199-.303-.327-.548-.444-.737-.362-1.45-.257-2.115.175-.795.514-1.204 1.274-1.192 2.22.011.935.654 1.706 1.577 1.835.795.105 1.46-.175 1.987-.77.105-.13.198-.27.315-.434H10.47c-.245 0-.304-.152-.222-.35.152-.362.432-.97.596-1.274a.315.315 0 0 1 .292-.187h4.253c-.023.3-.047.6-.082.9l-.023.233zm6.543-.76c-.012-.081-.035-.152-.082-.222-.374-.584-1.005-.853-1.683-.806-.853.059-1.542.491-1.963 1.239a2.53 2.53 0 0 0-.292 1.344c.035.783.397 1.39 1.133 1.694.737.304 1.45.187 2.045-.35.106-.094.21-.21.281-.328v.573c0 .046.023.082.07.093l.35.082c.047.012.082-.012.082-.058v-4.148c0-.047-.012-.082-.058-.094l-.35-.082a.087.087 0 0 0-.082.047zm-1.893 2.652c-.526 0-.911-.35-.958-.876-.047-.561.304-1.016.841-1.075.526-.058.981.339 1.028.888.047.537-.385 1.063-.911 1.063z"/>
         </svg>
       );

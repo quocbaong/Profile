@@ -75,7 +75,7 @@ export default function SkillsSection({ initialSkills = [] }: SkillsSectionProps
                         alignItems: 'center',
                         justifyContent: 'center',
                         borderRadius: '50%',
-                        border: `1px solid ${isHovered ? tech.color : 'rgba(255,255,255,0.14)'}`,
+                        border: `1px solid ${isHovered ? tech.color : 'rgba(255,255,255,0.12)'}`,
                         margin: '0 auto 20px',
                         fontSize: '28px',
                         color: isHovered ? tech.color : '#ffffff',
@@ -85,7 +85,7 @@ export default function SkillsSection({ initialSkills = [] }: SkillsSectionProps
                         transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
                       }}
                     >
-                      <TechIcon name={tech.name} icon={tech.icon} />
+                      <TechIcon name={tech.name} icon={tech.icon} monochrome={true} isHovered={isHovered} />
                     </div>
                     <h4
                       style={{
