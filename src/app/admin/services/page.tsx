@@ -13,6 +13,17 @@ interface ServiceItem {
   sort_order: number;
   is_active: boolean;
 }
+
+const ICON_PRESETS = [
+  { label: 'Laptop / Web Dev', iconClass: 'fi flaticon-laptop' },
+  { label: 'Backend & APIs', iconClass: 'fi flaticon-web-design' },
+  { label: 'Mobile App', iconClass: 'fi flaticon-smartphone' },
+  { label: 'Database & Bảo mật', iconClass: 'fi flaticon-verified' },
+  { label: 'Thiết kế UI/UX', iconClass: 'fi flaticon-paint-palette' },
+  { label: 'Hỗ trợ & Vận hành', iconClass: 'fi flaticon-operator' },
+  { label: 'Phân tích & Tối ưu', iconClass: 'fi flaticon-loupe' },
+];
+
 export default function AdminServicesPage() {
   const { services, refreshServices } = useAdminData();
   const [modalOpen, setModalOpen] = useState(false);
@@ -27,7 +38,6 @@ export default function AdminServicesPage() {
   });
 
   const [errorMsg, setErrorMsg] = useState('');
-
 
   const handleOpenAdd = () => {
     setEditingId(null);
@@ -96,64 +106,60 @@ export default function AdminServicesPage() {
         </button>
       </div>
 
-        <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '0.75rem', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)' }}>
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-              <thead>
-                <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#475569', fontSize: '0.8125rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  <th style={{ padding: '0.875rem 1.25rem', width: '60px', textAlign: 'center' }}>STT</th>
-                  <th style={{ padding: '0.875rem 1.25rem', width: '120px' }}>Icon Class</th>
-                  <th style={{ padding: '0.875rem 1.25rem' }}>Tên Dịch vụ</th>
-                  <th style={{ padding: '0.875rem 1.25rem' }}>Mô tả</th>
-                  <th style={{ padding: '0.875rem 1.25rem' }}>Trạng thái</th>
-                  <th style={{ padding: '0.875rem 1.25rem', textAlign: 'center', width: '110px' }}>Thao tác</th>
+      <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '0.75rem', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)' }}>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+            <thead>
+              <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#475569', fontSize: '0.8125rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                <th style={{ padding: '0.875rem 1.25rem', width: '60px', textAlign: 'center' }}>STT</th>
+                <th style={{ padding: '0.875rem 1.25rem' }}>Tên Dịch vụ</th>
+                <th style={{ padding: '0.875rem 1.25rem' }}>Mô tả</th>
+                <th style={{ padding: '0.875rem 1.25rem' }}>Trạng thái</th>
+                <th style={{ padding: '0.875rem 1.25rem', textAlign: 'center', width: '110px' }}>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              {services.map((s, idx) => (
+                <tr key={s.id} style={{ borderBottom: '1px solid #f1f5f9', transition: 'background-color 0.15s' }}>
+                  <td style={{ padding: '1rem 1.25rem', textAlign: 'center', color: '#64748b', fontWeight: 600, fontSize: '0.875rem', verticalAlign: 'middle' }}>
+                    {idx + 1}
+                  </td>
+                  <td style={{ padding: '1rem 1.25rem', verticalAlign: 'middle' }}>
+                    <p style={{ fontWeight: 600, color: '#0f172a', fontSize: '0.925rem', margin: 0 }}>{s.title}</p>
+                  </td>
+                  <td style={{ padding: '1rem 1.25rem', color: '#475569', fontSize: '0.85rem', maxWidth: '380px' }}>{s.description}</td>
+                  <td style={{ padding: '1rem 1.25rem', verticalAlign: 'middle' }}>
+                    {s.is_active ? (
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', backgroundColor: '#ecfdf5', color: '#059669', border: '1px solid #a7f3d0', padding: '0.2rem 0.5rem', borderRadius: '1rem', fontSize: '0.75rem', fontWeight: 600 }}>
+                        <CheckCircle size={12} /> Hiển thị
+                      </span>
+                    ) : (
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', backgroundColor: '#fef2f2', color: '#dc2626', border: '1px solid #fecaca', padding: '0.2rem 0.5rem', borderRadius: '1rem', fontSize: '0.75rem', fontWeight: 600 }}>
+                        <XCircle size={12} /> Đang ẩn
+                      </span>
+                    )}
+                  </td>
+                  <td style={{ padding: '1rem 1.25rem', verticalAlign: 'middle' }}>
+                    <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+                      <button onClick={() => handleOpenEdit(s)} style={{ backgroundColor: '#f1f5f9', color: '#334155', border: '1px solid #cbd5e1', padding: '0.45rem', borderRadius: '0.375rem', cursor: 'pointer', display: 'flex' }} title="Chỉnh sửa">
+                        <Edit size={15} />
+                      </button>
+                      <button onClick={() => handleDelete(s.id)} style={{ backgroundColor: '#fef2f2', color: '#dc2626', border: '1px solid #fecaca', padding: '0.45rem', borderRadius: '0.375rem', cursor: 'pointer', display: 'flex' }} title="Xóa">
+                        <Trash2 size={15} />
+                      </button>
+                    </div>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {services.map((s, idx) => (
-                  <tr key={s.id} style={{ borderBottom: '1px solid #f1f5f9', transition: 'background-color 0.15s' }}>
-                    <td style={{ padding: '1rem 1.25rem', textAlign: 'center', color: '#64748b', fontWeight: 600, fontSize: '0.875rem', verticalAlign: 'middle' }}>
-                      {idx + 1}
-                    </td>
-                    <td style={{ padding: '1rem 1.25rem', verticalAlign: 'middle' }}>
-                      <code style={{ backgroundColor: '#f1f5f9', padding: '0.2rem 0.5rem', borderRadius: '0.25rem', fontSize: '0.75rem', color: '#2563eb' }}>{s.icon_class}</code>
-                    </td>
-                    <td style={{ padding: '1rem 1.25rem', verticalAlign: 'middle' }}>
-                      <p style={{ fontWeight: 600, color: '#0f172a', fontSize: '0.925rem', margin: 0 }}>{s.title}</p>
-                    </td>
-                    <td style={{ padding: '1rem 1.25rem', color: '#475569', fontSize: '0.85rem', maxWidth: '350px' }}>{s.description}</td>
-                    <td style={{ padding: '1rem 1.25rem', verticalAlign: 'middle' }}>
-                      {s.is_active ? (
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', backgroundColor: '#ecfdf5', color: '#059669', border: '1px solid #a7f3d0', padding: '0.2rem 0.5rem', borderRadius: '1rem', fontSize: '0.75rem', fontWeight: 600 }}>
-                          <CheckCircle size={12} /> Hiển thị
-                        </span>
-                      ) : (
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', backgroundColor: '#fef2f2', color: '#dc2626', border: '1px solid #fecaca', padding: '0.2rem 0.5rem', borderRadius: '1rem', fontSize: '0.75rem', fontWeight: 600 }}>
-                          <XCircle size={12} /> Đang ẩn
-                        </span>
-                      )}
-                    </td>
-                    <td style={{ padding: '1rem 1.25rem', verticalAlign: 'middle' }}>
-                      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
-                        <button onClick={() => handleOpenEdit(s)} style={{ backgroundColor: '#f1f5f9', color: '#334155', border: '1px solid #cbd5e1', padding: '0.45rem', borderRadius: '0.375rem', cursor: 'pointer', display: 'flex' }} title="Chỉnh sửa">
-                          <Edit size={15} />
-                        </button>
-                        <button onClick={() => handleDelete(s.id)} style={{ backgroundColor: '#fef2f2', color: '#dc2626', border: '1px solid #fecaca', padding: '0.45rem', borderRadius: '0.375rem', cursor: 'pointer', display: 'flex' }} title="Xóa">
-                          <Trash2 size={15} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
+      </div>
 
       {/* Modal Add / Edit Service */}
       {modalOpen && (
         <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem' }}>
-          <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '0.75rem', width: '100%', maxWidth: '550px', padding: '2rem', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)' }}>
+          <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '0.75rem', width: '100%', maxWidth: '580px', maxHeight: '90vh', overflowY: 'auto', padding: '2rem', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid #f1f5f9', paddingBottom: '1rem' }}>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#0f172a' }}>{editingId !== null ? 'Chỉnh sửa Dịch vụ' : 'Thêm Dịch vụ Mới'}</h3>
               <button onClick={() => setModalOpen(false)} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', display: 'flex' }}>
@@ -167,7 +173,7 @@ export default function AdminServicesPage() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#334155', marginBottom: '0.375rem' }}>Tên Dịch vụ *</label>
                 <input
@@ -175,20 +181,58 @@ export default function AdminServicesPage() {
                   required
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="Web Development / Backend & APIs"
+                  placeholder="Ví dụ: Web Development, Backend & APIs..."
                   style={{ width: '100%', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '0.5rem', padding: '0.625rem 0.875rem', color: '#0f172a', outline: 'none' }}
                 />
               </div>
 
+              {/* Visual Icon Picker */}
               <div>
-                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#334155', marginBottom: '0.375rem' }}>Icon Class (Flaticon)</label>
-                <input
-                  type="text"
-                  value={formData.icon_class}
-                  onChange={(e) => setFormData({ ...formData, icon_class: e.target.value })}
-                  placeholder="fi flaticon-laptop, fi flaticon-web-design, fi flaticon-smartphone"
-                  style={{ width: '100%', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '0.5rem', padding: '0.625rem 0.875rem', color: '#0f172a', outline: 'none' }}
-                />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                  <label style={{ fontSize: '0.875rem', fontWeight: 600, color: '#334155' }}>Chọn Biểu tượng (Icon)</label>
+                  <span style={{ fontSize: '0.75rem', color: '#64748b' }}>Nhấp để chọn nhanh</span>
+                </div>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+                  gap: '0.5rem',
+                  maxHeight: '190px',
+                  overflowY: 'auto',
+                  padding: '0.5rem',
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '0.5rem',
+                }}>
+                  {ICON_PRESETS.map((item) => {
+                    const isSelected = formData.icon_class === item.iconClass;
+                    return (
+                      <button
+                        type="button"
+                        key={item.iconClass}
+                        onClick={() => setFormData({ ...formData, icon_class: item.iconClass })}
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.375rem',
+                          padding: '0.625rem 0.375rem',
+                          borderRadius: '0.375rem',
+                          border: `1.5px solid ${isSelected ? '#2563eb' : '#e2e8f0'}`,
+                          backgroundColor: isSelected ? '#eff6ff' : '#ffffff',
+                          color: isSelected ? '#2563eb' : '#475569',
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        <i className={item.iconClass} style={{ fontSize: '22px' }}></i>
+                        <span style={{ fontSize: '0.6875rem', fontWeight: isSelected ? 700 : 500, textAlign: 'center', lineHeight: 1.2 }}>
+                          {item.label}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               <div>
@@ -197,7 +241,8 @@ export default function AdminServicesPage() {
                   rows={3}
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  style={{ width: '100%', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '0.5rem', padding: '0.625rem 0.875rem', color: '#0f172a', outline: 'none' }}
+                  placeholder="Mô tả tóm tắt về năng lực chuyên môn và giải pháp cung cấp..."
+                  style={{ width: '100%', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '0.5rem', padding: '0.625rem 0.875rem', color: '#0f172a', outline: 'none', lineHeight: 1.5 }}
                 />
               </div>
 
@@ -224,7 +269,7 @@ export default function AdminServicesPage() {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1rem', borderTop: '1px solid #f1f5f9', paddingTop: '1rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '0.5rem', borderTop: '1px solid #f1f5f9', paddingTop: '1rem' }}>
                 <button type="button" onClick={() => setModalOpen(false)} style={{ backgroundColor: '#f8fafc', color: '#64748b', border: '1px solid #cbd5e1', padding: '0.625rem 1.25rem', borderRadius: '0.5rem', cursor: 'pointer', fontSize: '0.875rem', fontWeight: 500 }}>
                   Hủy bỏ
                 </button>

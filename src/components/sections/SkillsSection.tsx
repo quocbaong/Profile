@@ -19,6 +19,7 @@ export default function SkillsSection() {
             name: typeof item.name === 'string' ? item.name : '',
             category: typeof item.category === 'string' ? item.category : '',
             color: typeof item.color === 'string' ? item.color : '#3b82f6',
+            icon: typeof item.icon === 'string' ? item.icon : undefined,
           };
         });
         setSkills(mapped);
@@ -80,7 +81,7 @@ export default function SkillsSection() {
                         transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
                       }}
                     >
-                      <TechIcon name={tech.name} />
+                      <TechIcon name={tech.name} icon={tech.icon} />
                     </div>
                     <h4
                       style={{

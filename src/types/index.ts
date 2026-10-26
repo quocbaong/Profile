@@ -19,6 +19,7 @@ export interface TechItem {
   name: string;
   category: string;
   color: string;
+  icon?: string;
 }
 
 export interface ContactFormData {

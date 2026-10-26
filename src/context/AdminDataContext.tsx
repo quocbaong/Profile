@@ -36,6 +36,7 @@ export interface SkillItem {
   id: number;
   name: string;
   category: string;
+  icon?: string;
   color: string;
   sort_order: number;
   is_active: boolean;
