@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import PortfolioClient from '@/components/portfolio/PortfolioClient';
 import {
   fetchPublicProfile,
@@ -10,6 +11,51 @@ import { Project, Service, TechItem } from '@/types';
 
 export const dynamic = 'force-dynamic';
 
+export async function generateMetadata(): Promise<Metadata> {
+  const profile = await fetchPublicProfile();
+  const name = profile?.name || "Nguyễn Quốc Bảo";
+  const title = profile?.title
+    ? `${name} — ${profile.title}`
+    : `${name} — Full Stack Developer Portfolio`;
+  const description = profile?.about_description
+    ? profile.about_description.slice(0, 160).replace(/\n+/g, " ")
+    : `Personal portfolio website of ${name}`;
+
+  return {
+    title,
+    description,
+    authors: [{ name, url: "https://quocbao.click" }],
+    creator: name,
+    openGraph: {
+      type: "website",
+      locale: "vi_VN",
+      url: "https://quocbao.click",
+      siteName: `${name} Portfolio`,
+      title,
+      description,
+      images: [
+        {
+          url: "/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: `${name} Logo`,
+        },
+        {
+          url: "/images/portfar/logo_b.png",
+          width: 512,
+          height: 458,
+          alt: `${name} Logo`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/og-image.png"],
+    },
+  };
+}
 export default async function Home() {
   const [profile, rawProjects, rawServices, rawSkills] = await Promise.all([
     fetchPublicProfile(),
