@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { getAdminServices, createService, updateService, deleteService } from '@/lib/adminApi';
+import React, { useState } from 'react';
+import { createService, updateService, deleteService } from '@/lib/adminApi';
+import { useAdminData } from '@/context/AdminDataContext';
 import { Plus, Edit, Trash2, X, CheckCircle, XCircle } from 'lucide-react';
 
 interface ServiceItem {
@@ -12,10 +13,8 @@ interface ServiceItem {
   sort_order: number;
   is_active: boolean;
 }
-
 export default function AdminServicesPage() {
-  const [services, setServices] = useState<ServiceItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { services, refreshServices } = useAdminData();
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
 
@@ -29,19 +28,6 @@ export default function AdminServicesPage() {
 
   const [errorMsg, setErrorMsg] = useState('');
 
-  const loadServices = () => {
-    setLoading(true);
-    getAdminServices()
-      .then((data) => {
-        if (data && Array.isArray(data)) setServices(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  };
-
-  useEffect(() => {
-    loadServices();
-  }, []);
 
   const handleOpenAdd = () => {
     setEditingId(null);
@@ -77,7 +63,7 @@ export default function AdminServicesPage() {
         await createService(formData);
       }
       setModalOpen(false);
-      loadServices();
+      await refreshServices();
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Lỗi khi lưu dịch vụ';
       setErrorMsg(errorMessage);
@@ -88,7 +74,7 @@ export default function AdminServicesPage() {
     if (!confirm('Bạn có chắc chắn muốn xóa dịch vụ này?')) return;
     try {
       await deleteService(id);
-      loadServices();
+      await refreshServices();
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Xóa thất bại';
       alert(errorMessage);
@@ -110,9 +96,6 @@ export default function AdminServicesPage() {
         </button>
       </div>
 
-      {loading ? (
-        <p style={{ color: '#94a3b8' }}>Đang tải danh sách dịch vụ...</p>
-      ) : (
         <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '0.75rem', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)' }}>
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
@@ -166,7 +149,6 @@ export default function AdminServicesPage() {
             </table>
           </div>
         </div>
-      )}
 
       {/* Modal Add / Edit Service */}
       {modalOpen && (

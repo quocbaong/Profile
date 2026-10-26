@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { getAdminProjects, createProject, updateProject, deleteProject, uploadImageFile } from '@/lib/adminApi';
+import React, { useState } from 'react';
+import { createProject, updateProject, deleteProject, uploadImageFile } from '@/lib/adminApi';
 import { getProjectImageUrl } from '@/lib/apiClient';
+import { useAdminData } from '@/context/AdminDataContext';
 import { Plus, Edit, Trash2, Upload, X, CheckCircle, XCircle } from 'lucide-react';
 
 interface ProjectItem {
@@ -17,10 +18,8 @@ interface ProjectItem {
   sort_order: number;
   is_active: boolean;
 }
-
 export default function AdminProjectsPage() {
-  const [projects, setProjects] = useState<ProjectItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { projects, refreshProjects } = useAdminData();
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
 
@@ -39,19 +38,6 @@ export default function AdminProjectsPage() {
   const [uploading, setUploading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const loadProjects = () => {
-    setLoading(true);
-    getAdminProjects()
-      .then((data) => {
-        if (data && Array.isArray(data)) setProjects(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  };
-
-  useEffect(() => {
-    loadProjects();
-  }, []);
 
   const handleOpenAdd = () => {
     setEditingId(null);
@@ -113,7 +99,7 @@ export default function AdminProjectsPage() {
         await createProject(formData);
       }
       setModalOpen(false);
-      loadProjects();
+      await refreshProjects();
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Operation failed';
       setErrorMsg(errorMessage);
@@ -124,7 +110,7 @@ export default function AdminProjectsPage() {
     if (!confirm('Bạn có chắc chắn muốn xóa dự án này?')) return;
     try {
       await deleteProject(id);
-      loadProjects();
+      await refreshProjects();
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Delete failed';
       alert(errorMessage);
@@ -146,9 +132,6 @@ export default function AdminProjectsPage() {
           </button>
         </div>
 
-        {loading ? (
-          <p style={{ color: '#94a3b8' }}>Đang tải danh sách dự án...</p>
-        ) : (
           <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '0.75rem', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)' }}>
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
@@ -219,7 +202,6 @@ export default function AdminProjectsPage() {
               </table>
             </div>
           </div>
-        )}
 
         {/* Modal Form */}
         {modalOpen && (

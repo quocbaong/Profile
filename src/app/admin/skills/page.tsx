@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { getAdminSkills, createSkill, updateSkill, deleteSkill } from '@/lib/adminApi';
+import React, { useState } from 'react';
+import { createSkill, updateSkill, deleteSkill } from '@/lib/adminApi';
+import { useAdminData } from '@/context/AdminDataContext';
 import { Plus, Edit, Trash2, X, CheckCircle, XCircle } from 'lucide-react';
 
 interface SkillItem {
@@ -12,10 +13,8 @@ interface SkillItem {
   sort_order: number;
   is_active: boolean;
 }
-
 export default function AdminSkillsPage() {
-  const [skills, setSkills] = useState<SkillItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { skills, refreshSkills } = useAdminData();
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
 
@@ -29,19 +28,6 @@ export default function AdminSkillsPage() {
 
   const [errorMsg, setErrorMsg] = useState('');
 
-  const loadSkills = () => {
-    setLoading(true);
-    getAdminSkills()
-      .then((data) => {
-        if (data && Array.isArray(data)) setSkills(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  };
-
-  useEffect(() => {
-    loadSkills();
-  }, []);
 
   const handleOpenAdd = () => {
     setEditingId(null);
@@ -77,7 +63,7 @@ export default function AdminSkillsPage() {
         await createSkill(formData);
       }
       setModalOpen(false);
-      loadSkills();
+      await refreshSkills();
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Lỗi khi lưu kỹ năng';
       setErrorMsg(errorMessage);
@@ -88,7 +74,7 @@ export default function AdminSkillsPage() {
     if (!confirm('Bạn có chắc chắn muốn xóa kỹ năng này?')) return;
     try {
       await deleteSkill(id);
-      loadSkills();
+      await refreshSkills();
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Xóa thất bại';
       alert(errorMessage);
@@ -110,9 +96,6 @@ export default function AdminSkillsPage() {
         </button>
       </div>
 
-      {loading ? (
-        <p style={{ color: '#94a3b8' }}>Đang tải danh sách kỹ năng...</p>
-      ) : (
         <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '0.75rem', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)' }}>
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
@@ -173,7 +156,6 @@ export default function AdminSkillsPage() {
             </table>
           </div>
         </div>
-      )}
 
       {/* Modal Add / Edit Skill */}
       {modalOpen && (

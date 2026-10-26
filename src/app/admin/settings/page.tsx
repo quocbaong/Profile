@@ -1,64 +1,57 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { getAdminProfile, updateAdminProfile, uploadImageFile } from '@/lib/adminApi';
+import { updateAdminProfile, uploadImageFile } from '@/lib/adminApi';
 import { getProjectImageUrl } from '@/lib/apiClient';
+import { useAdminData } from '@/context/AdminDataContext';
 import { Save, Upload, CheckCircle2, User, Mail, Globe, Sparkles } from 'lucide-react';
 
 export default function AdminSettingsPage() {
-  const [loading, setLoading] = useState(true);
+  const { profile, refreshProfile } = useAdminData();
   const [saving, setSaving] = useState(false);
   const [uploadingHero, setUploadingHero] = useState(false);
   const [uploadingAbout, setUploadingAbout] = useState(false);
   const [statusMsg, setStatusMsg] = useState({ text: '', isError: false });
 
   const [formData, setFormData] = useState({
-    name: '',
-    title: '',
-    subtitle: '',
-    about_title: '',
-    about_description: '',
-    email: '',
-    phone: '',
-    address: '',
-    hero_image: '',
-    about_image: '',
-    resume_url: '',
-    github_url: '',
-    linkedin_url: '',
-    facebook_url: '',
-    instagram_url: '',
+    name: profile?.name || '',
+    title: profile?.title || '',
+    subtitle: profile?.subtitle || '',
+    about_title: profile?.about_title || '',
+    about_description: profile?.about_description || '',
+    email: profile?.email || '',
+    phone: profile?.phone || '',
+    address: profile?.address || '',
+    hero_image: profile?.hero_image || '',
+    about_image: profile?.about_image || '',
+    resume_url: profile?.resume_url || '',
+    github_url: profile?.github_url || '',
+    linkedin_url: profile?.linkedin_url || '',
+    facebook_url: profile?.facebook_url || '',
+    instagram_url: profile?.instagram_url || '',
   });
 
   useEffect(() => {
-    getAdminProfile()
-      .then((data) => {
-        if (data) {
-          setFormData({
-            name: data.name || '',
-            title: data.title || '',
-            subtitle: data.subtitle || '',
-            about_title: data.about_title || '',
-            about_description: data.about_description || '',
-            email: data.email || '',
-            phone: data.phone || '',
-            address: data.address || '',
-            hero_image: data.hero_image || '',
-            about_image: data.about_image || '',
-            resume_url: data.resume_url || '',
-            github_url: data.github_url || '',
-            linkedin_url: data.linkedin_url || '',
-            facebook_url: data.facebook_url || '',
-            instagram_url: data.instagram_url || '',
-          });
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('Failed to load profile:', err);
-        setLoading(false);
+    if (profile) {
+      setFormData({
+        name: profile.name || '',
+        title: profile.title || '',
+        subtitle: profile.subtitle || '',
+        about_title: profile.about_title || '',
+        about_description: profile.about_description || '',
+        email: profile.email || '',
+        phone: profile.phone || '',
+        address: profile.address || '',
+        hero_image: profile.hero_image || '',
+        about_image: profile.about_image || '',
+        resume_url: profile.resume_url || '',
+        github_url: profile.github_url || '',
+        linkedin_url: profile.linkedin_url || '',
+        facebook_url: profile.facebook_url || '',
+        instagram_url: profile.instagram_url || '',
       });
-  }, []);
+    }
+  }, [profile]);
 
   const handleUploadImage = async (file: File, type: 'hero' | 'about') => {
     if (type === 'hero') setUploadingHero(true);
@@ -85,7 +78,7 @@ export default function AdminSettingsPage() {
 
     try {
       await updateAdminProfile(formData);
-      setStatusMsg({ text: 'Cập nhật thông tin Profile thành công!', isError: false });
+      await refreshProfile();
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Lưu thất bại';
       setStatusMsg({ text: `Lỗi: ${msg}`, isError: true });
@@ -120,9 +113,6 @@ export default function AdminSettingsPage() {
         </div>
       )}
 
-      {loading ? (
-        <p style={{ color: '#94a3b8' }}>Đang tải cài đặt...</p>
-      ) : (
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           {/* Card 1: Giới thiệu chính & Hero */}
           <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '0.75rem', padding: '1.75rem', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
@@ -359,7 +349,6 @@ export default function AdminSettingsPage() {
             </button>
           </div>
         </form>
-      )}
     </div>
   );
 }

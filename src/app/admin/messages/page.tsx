@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { getAdminMessages, markMessageRead, deleteMessage } from '@/lib/adminApi';
+import React, { useState } from 'react';
+import { markMessageRead, deleteMessage } from '@/lib/adminApi';
+import { useAdminData } from '@/context/AdminDataContext';
 import { Mail, MailOpen, Trash2, Eye, X } from 'lucide-react';
 
 interface ContactMessageItem {
@@ -14,32 +15,17 @@ interface ContactMessageItem {
   is_read: boolean;
   created_at: string;
 }
-
 export default function AdminMessagesPage() {
-  const [messages, setMessages] = useState<ContactMessageItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { messages, refreshMessages } = useAdminData();
   const [selectedMsg, setSelectedMsg] = useState<ContactMessageItem | null>(null);
 
-  const loadMessages = () => {
-    setLoading(true);
-    getAdminMessages()
-      .then((data) => {
-        if (data && Array.isArray(data)) setMessages(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  };
-
-  useEffect(() => {
-    loadMessages();
-  }, []);
 
   const handleView = async (msg: ContactMessageItem) => {
     setSelectedMsg(msg);
     if (!msg.is_read) {
       try {
         await markMessageRead(msg.id);
-        setMessages(messages.map((m) => (m.id === msg.id ? { ...m, is_read: true } : m)));
+        await refreshMessages();
       } catch {
         // ignore error
       }
@@ -50,7 +36,7 @@ export default function AdminMessagesPage() {
     if (!confirm('Bạn có chắc chắn muốn xóa tin nhắn này?')) return;
     try {
       await deleteMessage(id);
-      setMessages(messages.filter((m) => m.id !== id));
+      await refreshMessages();
       if (selectedMsg && selectedMsg.id === id) {
         setSelectedMsg(null);
       }
@@ -66,10 +52,7 @@ export default function AdminMessagesPage() {
           <h1 style={{ fontSize: '1.875rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem' }}>Hộp thư Liên hệ</h1>
           <p style={{ color: '#64748b', fontSize: '0.95rem' }}>Danh sách tin nhắn được gửi từ khách truy cập qua form liên hệ trên website.</p>
         </div>
-
-        {loading ? (
-          <p style={{ color: '#94a3b8' }}>Đang tải tin nhắn...</p>
-        ) : messages.length === 0 ? (
+        {messages.length === 0 ? (
           <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '0.75rem', padding: '3.5rem', textAlign: 'center', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)' }}>
             <div style={{ width: '64px', height: '64px', backgroundColor: '#f1f5f9', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem auto', color: '#94a3b8' }}>
               <Mail size={32} />

@@ -1,27 +1,12 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { getDashboardStats } from '@/lib/adminApi';
+import React from 'react';
+import { useAdminData } from '@/context/AdminDataContext';
 import { FolderGit2, CheckCircle2, MessageSquare, MailWarning, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminDashboardPage() {
-  const [stats, setStats] = useState({
-    total_projects: 0,
-    active_projects: 0,
-    total_messages: 0,
-    unread_messages: 0,
-  });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    getDashboardStats()
-      .then((data) => {
-        if (data) setStats(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
+  const { stats } = useAdminData();
 
   const cards = [
     { label: 'Tổng số Dự án', value: stats.total_projects, icon: FolderGit2, color: '#2563eb', bg: '#eff6ff', href: '/admin/projects' },
@@ -37,9 +22,6 @@ export default function AdminDashboardPage() {
           <p style={{ color: '#64748b', fontSize: '0.95rem' }}>Xin chào! Dưới đây là tình trạng hoạt động trên portfolio của bạn.</p>
         </div>
 
-        {loading ? (
-          <p style={{ color: '#94a3b8' }}>Đang tải dữ liệu thống kê...</p>
-        ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem', marginBottom: '2rem' }}>
             {cards.map((card, idx) => {
               const Icon = card.icon;
@@ -58,7 +40,6 @@ export default function AdminDashboardPage() {
               );
             })}
           </div>
-        )}
 
         <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '0.75rem', padding: '1.5rem', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)' }}>
           <h3 style={{ fontSize: '1.125rem', fontWeight: 600, color: '#0f172a', marginBottom: '1rem' }}>Thao tác Nhanh</h3>

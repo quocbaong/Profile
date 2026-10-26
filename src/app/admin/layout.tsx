@@ -5,14 +5,30 @@ import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { LayoutDashboard, FolderGit2, Briefcase, Code2, MessageSquare, User, LogOut, Menu, ExternalLink } from 'lucide-react';
 import { adminLogout } from '@/lib/adminApi';
+import { AdminDataProvider, useAdminData } from '@/context/AdminDataContext';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
+  const pathname = usePathname();
+
+  if (pathname === '/admin/login') {
+    return <>{children}</>;
+  }
+
+  return (
+    <AdminDataProvider>
+      <AdminLayoutContent>{children}</AdminLayoutContent>
+    </AdminDataProvider>
+  );
+}
+
+function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
+  const { initialized } = useAdminData();
   const [authorized, setAuthorized] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [adminName, setAdminName] = useState('Administrator');
@@ -24,11 +40,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   }, []);
 
   useEffect(() => {
-    if (pathname === '/admin/login') {
-      setAuthorized(true);
-      return;
-    }
-
     const token = localStorage.getItem('admin_token');
     if (!token) {
       router.push('/admin/login');
@@ -48,16 +59,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     }
 
     setAuthorized(true);
-  }, [pathname, router]);
+  }, [router]);
 
-  if (pathname === '/admin/login') {
-    return <>{children}</>;
-  }
-
-  if (!authorized) {
+  if (!authorized || !initialized) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8fafc', color: '#64748b' }}>
-        <p>Verifying authorization...</p>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8fafc' }}>
+        <div style={{ width: '36px', height: '36px', border: '3px solid #e2e8f0', borderTopColor: '#2563eb', borderRadius: '50%', animation: 'spin 0.6s linear infinite' }} />
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
@@ -80,6 +88,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         return 'Quản trị';
     }
   };
+
   const navItems = [
     { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { label: 'Thông tin cá nhân', href: '/admin/settings', icon: User },
@@ -91,7 +100,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8fafc', color: '#0f172a', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-
       {/* Sidebar for Desktop & Mobile */}
       <aside style={{
         width: '260px',
@@ -258,7 +266,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           zIndex: 40,
           boxSizing: 'border-box',
         }}>
-          {/* Left: Toggle & Breadcrumb */}
+          {/* Left: Toggle & Current Page Title */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <button
               onClick={() => setSidebarOpen((prev) => !prev)}
@@ -316,7 +324,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           {children}
         </main>
       </div>
-
     </div>
   );
 }
