@@ -30,3 +30,21 @@ export interface ContactFormData {
 }
 
 export type SectionId = 'home' | 'about' | 'service' | 'portfolio' | 'skills' | 'contact';
+
+export interface ProfileInfo {
+  name?: string;
+  title?: string;
+  subtitle?: string;
+  about_title?: string;
+  about_description?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  hero_image?: string;
+  about_image?: string;
+  resume_url?: string;
+  github_url?: string;
+  linkedin_url?: string;
+  facebook_url?: string;
+  instagram_url?: string;
+}

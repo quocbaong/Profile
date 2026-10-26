@@ -2,20 +2,26 @@
 
 import React from 'react';
 import PolygonDivider from '@/components/common/PolygonDivider';
-import { SectionId } from '@/types';
+import { getProjectImageUrl } from '@/lib/apiClient';
+import { SectionId, ProfileInfo } from '@/types';
 
 interface HeroSectionProps {
   scrollTo: (id: SectionId) => void;
+  profile?: ProfileInfo | null;
 }
 
-export default function HeroSection({ scrollTo }: HeroSectionProps) {
+export default function HeroSection({ scrollTo, profile }: HeroSectionProps) {
+  const bgImg = profile?.hero_image
+    ? `url(${getProjectImageUrl(profile.hero_image)})`
+    : 'url(/images/user_slide.jpg)';
+
   return (
     <section id="home" className="hero hero-slider-wrapper hero-style-1">
       <div className="hero-slider">
         <div
           className="slide"
           style={{
-            backgroundImage: 'url(/images/user_slide.jpg)',
+            backgroundImage: bgImg,
             backgroundPosition: 'center right',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
@@ -25,10 +31,10 @@ export default function HeroSection({ scrollTo }: HeroSectionProps) {
             <div className="row">
               <div className="col col-md-10 col-sm-12 slide-caption">
                 <div className="slide-subtitle">
-                  <h4>I am Nguyễn Quốc Bảo</h4>
+                  <h4>{profile?.subtitle || (profile?.name ? `I am ${profile.name}` : 'I am Nguyễn Quốc Bảo')}</h4>
                 </div>
                 <div className="slide-title">
-                  <h2>Full Stack Developer</h2>
+                  <h2>{profile?.title || 'Full Stack Developer'}</h2>
                 </div>
                 <div className="btns">
                   <a

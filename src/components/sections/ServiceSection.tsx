@@ -1,15 +1,33 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PolygonDivider from '@/components/common/PolygonDivider';
-import { servicesData } from '@/data/services';
-import { SectionId } from '@/types';
+import { fetchPublicServices } from '@/lib/apiClient';
+import { SectionId, Service } from '@/types';
 
 interface ServiceSectionProps {
   scrollTo: (id: SectionId) => void;
 }
 
 export default function ServiceSection({ scrollTo }: ServiceSectionProps) {
+  const [services, setServices] = useState<Service[]>([]);
+
+  useEffect(() => {
+    fetchPublicServices().then((data) => {
+      if (data && Array.isArray(data)) {
+        const mapped = data.map((s: unknown) => {
+          const item = s as Record<string, unknown>;
+          return {
+            title: typeof item.title === 'string' ? item.title : '',
+            iconClass: typeof item.icon_class === 'string' ? item.icon_class : 'fi flaticon-laptop',
+            desc: typeof item.description === 'string' ? item.description : '',
+          };
+        });
+        setServices(mapped);
+      }
+    });
+  }, []);
+
   return (
     <div id="service" className="service-area section-padding">
       <div className="borderd"></div>
@@ -22,7 +40,7 @@ export default function ServiceSection({ scrollTo }: ServiceSectionProps) {
         </div>
 
         <div className="row">
-          {servicesData.map((service, idx) => (
+          {services.map((service, idx) => (
             <div key={idx} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
               <div className="service-section">
                 <div className="services-wrapper">

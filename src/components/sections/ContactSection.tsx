@@ -2,20 +2,21 @@
 
 import React from 'react';
 import PolygonDivider from '@/components/common/PolygonDivider';
-import { ContactFormData } from '@/types';
+import { ContactFormData, ProfileInfo } from '@/types';
 
 interface ContactSectionProps {
   formData: ContactFormData;
   setFormData: React.Dispatch<React.SetStateAction<ContactFormData>>;
   formStatus: string;
   handleContactSubmit: (e: React.FormEvent) => void;
+  profile?: ProfileInfo | null;
 }
-
 export default function ContactSection({
   formData,
   setFormData,
   formStatus,
   handleContactSubmit,
+  profile,
 }: ContactSectionProps) {
   return (
     <section id="contact" className="tp-contact-pg-section section-padding">
@@ -32,7 +33,7 @@ export default function ContactSection({
                     </div>
                     <div className="office-info-text">
                       <h2>Address</h2>
-                      <p>Ho Chi Minh City, Vietnam</p>
+                      <p>{profile?.address || 'Ho Chi Minh City, Vietnam'}</p>
                     </div>
                   </div>
                 </div>
@@ -44,7 +45,7 @@ export default function ContactSection({
                     </div>
                     <div className="office-info-text">
                       <h2>Email Us</h2>
-                      <p>nbao76296@gmail.com</p>
+                      <p>{profile?.email || 'nbao76296@gmail.com'}</p>
                     </div>
                   </div>
                 </div>
@@ -56,7 +57,7 @@ export default function ContactSection({
                     </div>
                     <div className="office-info-text">
                       <h2>Call Now</h2>
-                      <p>+84 779456610</p>
+                      <p>{profile?.phone || '+84 399 609 008'}</p>
                     </div>
                   </div>
                 </div>

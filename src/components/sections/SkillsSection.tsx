@@ -1,12 +1,30 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PolygonDivider from '@/components/common/PolygonDivider';
 import TechIcon from '@/components/common/TechIcon';
-import { techStack } from '@/data/techStack';
+import { fetchPublicSkills } from '@/lib/apiClient';
+import { TechItem } from '@/types';
 
 export default function SkillsSection() {
+  const [skills, setSkills] = useState<TechItem[]>([]);
   const [hoveredTech, setHoveredTech] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchPublicSkills().then((data) => {
+      if (data && Array.isArray(data)) {
+        const mapped: TechItem[] = data.map((sk: unknown) => {
+          const item = sk as Record<string, unknown>;
+          return {
+            name: typeof item.name === 'string' ? item.name : '',
+            category: typeof item.category === 'string' ? item.category : '',
+            color: typeof item.color === 'string' ? item.color : '#3b82f6',
+          };
+        });
+        setSkills(mapped);
+      }
+    });
+  }, []);
 
   return (
     <section id="skills" className="pricing-section section-padding">
@@ -23,7 +41,7 @@ export default function SkillsSection() {
         <div className="row">
           <div className="col col-xs-12">
             <div className="tech-stack-grid">
-              {techStack.map((tech) => {
+              {skills.map((tech) => {
                 const isHovered = hoveredTech === tech.name;
                 return (
                   <div

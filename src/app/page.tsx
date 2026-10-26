@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { submitContactForm, fetchPublicProfile } from '@/lib/apiClient';
+
 import Header from '@/components/common/Header';
 import SocialBar from '@/components/common/SocialBar';
 import ScrollToTop from '@/components/common/ScrollToTop';
@@ -10,11 +12,12 @@ import ServiceSection from '@/components/sections/ServiceSection';
 import PortfolioSection from '@/components/sections/PortfolioSection';
 import SkillsSection from '@/components/sections/SkillsSection';
 import ContactSection from '@/components/sections/ContactSection';
-import { SectionId, ContactFormData } from '@/types';
+import { SectionId, ContactFormData, ProfileInfo } from '@/types';
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string>('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const [profile, setProfile] = useState<ProfileInfo | null>(null);
   const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     lastname: '',
@@ -23,6 +26,12 @@ export default function Home() {
     message: '',
   });
   const [formStatus, setFormStatus] = useState<string>('');
+
+  useEffect(() => {
+    fetchPublicProfile().then((data) => {
+      if (data) setProfile(data);
+    });
+  }, []);
 
   // Scroll spy to update active nav link
   useEffect(() => {
@@ -52,10 +61,17 @@ export default function Home() {
     }
   };
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormStatus('Thank you! Your message has been sent successfully.');
-    setFormData({ name: '', lastname: '', email: '', subject: '', message: '' });
+    setFormStatus('Sending message...');
+    try {
+      await submitContactForm(formData);
+      setFormStatus('Thank you! Your message has been sent successfully.');
+      setFormData({ name: '', lastname: '', email: '', subject: '', message: '' });
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : 'Failed to send message. Please try again.';
+      setFormStatus(`Error: ${errorMsg}`);
+    }
     setTimeout(() => setFormStatus(''), 5000);
   };
 
@@ -70,12 +86,12 @@ export default function Home() {
       />
 
       {/* Fixed Right Social Bar */}
-      <SocialBar />
+      <SocialBar profile={profile} />
 
       {/* Main Page Content Area */}
       <div className="page-wrapper">
-        <HeroSection scrollTo={scrollTo} />
-        <AboutSection scrollTo={scrollTo} />
+        <HeroSection scrollTo={scrollTo} profile={profile} />
+        <AboutSection scrollTo={scrollTo} profile={profile} />
         <ServiceSection scrollTo={scrollTo} />
         <PortfolioSection />
         <SkillsSection />
@@ -84,6 +100,7 @@ export default function Home() {
           setFormData={setFormData}
           formStatus={formStatus}
           handleContactSubmit={handleContactSubmit}
+          profile={profile}
         />
         <ScrollToTop />
       </div>

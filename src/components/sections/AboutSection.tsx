@@ -2,13 +2,23 @@
 
 import React from 'react';
 import PolygonDivider from '@/components/common/PolygonDivider';
-import { SectionId } from '@/types';
+import { getProjectImageUrl } from '@/lib/apiClient';
+import { SectionId, ProfileInfo } from '@/types';
 
 interface AboutSectionProps {
   scrollTo: (id: SectionId) => void;
+  profile?: ProfileInfo | null;
 }
 
-export default function AboutSection({ scrollTo }: AboutSectionProps) {
+export default function AboutSection({ scrollTo, profile }: AboutSectionProps) {
+  const photo = profile?.about_image
+    ? getProjectImageUrl(profile.about_image)
+    : '/images/profile.jpg';
+
+  const defaultDesc = `I’m a fourth-year IT student at Industrial University of Ho Chi Minh City (IUH) on my journey to becoming a professional Software Engineer. I’m passionate about modern software architectures, enterprise backend systems, and crafting responsive web and mobile digital experiences that solve real-world problems.\n\nThrough hands-on projects spanning full-featured web platforms, desktop database systems, and cross-platform mobile apps, I have developed strong logical thinking, rapid problem-solving capabilities, and effective team collaboration skills.`;
+
+  const paragraphs = (profile?.about_description || defaultDesc).split('\n\n');
+
   return (
     <section id="about" className="tp-about-section">
       <div className="container">
@@ -26,8 +36,8 @@ export default function AboutSection({ scrollTo }: AboutSectionProps) {
                 }}
               >
                 <img
-                  src="/images/profile.jpg"
-                  alt="Nguyễn Quốc Bảo"
+                  src={photo}
+                  alt={profile?.name || 'Nguyễn Quốc Bảo'}
                   style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
                 />
               </div>
@@ -38,17 +48,15 @@ export default function AboutSection({ scrollTo }: AboutSectionProps) {
           <div className="col-lg-7 col-md-12 col-12">
             <div className="tp-about-text">
               <div className="tp-about-icon-content">
-                <h2>Professional And Dedicated Full Stack Developer</h2>
-                <p>
-                  I’m a fourth-year IT student at Industrial University of Ho Chi Minh City (IUH) on my journey to becoming a professional Software Engineer.
-                  I’m passionate about modern software architectures, enterprise backend systems, and crafting responsive web and mobile digital experiences that solve real-world problems.
-                </p>
-                <p>
-                  Through hands-on projects spanning full-featured web platforms, desktop database systems, and cross-platform mobile apps, I have developed strong logical thinking, rapid problem-solving capabilities, and effective team collaboration skills.
-                </p>
+                <h2>{profile?.about_title || 'Professional And Dedicated Full Stack Developer'}</h2>
+                {paragraphs.map((p, idx) => (
+                  <p key={idx} style={{ marginBottom: '1rem', lineHeight: 1.7 }}>
+                    {p}
+                  </p>
+                ))}
                 <div className="about-author-box">
-                  <div className="author-name">Nguyễn Quốc Bảo</div>
-                  <div className="author-role">Software Engineer</div>
+                  <div className="author-name">{profile?.name || 'Nguyễn Quốc Bảo'}</div>
+                  <div className="author-role">{profile?.title || 'Software Engineer'}</div>
                 </div>
                 <button
                   onClick={() => scrollTo('contact')}
