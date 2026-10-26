@@ -36,7 +36,6 @@ export default function AdminLoginPage() {
             <ShieldCheck size={32} />
           </div>
           <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem' }}>Đăng nhập Quản trị</h1>
-          <p style={{ color: '#64748b', fontSize: '0.875rem' }}>Quản lý Portfolio Nguyễn Quốc Bảo</p>
         </div>
 
         {error && (
