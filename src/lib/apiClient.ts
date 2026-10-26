@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8085/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 export function getProjectImageUrl(imagePath?: string): string {
   if (!imagePath) return '/images/project2.jpg';
@@ -6,9 +6,9 @@ export function getProjectImageUrl(imagePath?: string): string {
     return imagePath;
   }
   if (imagePath.startsWith('/uploads')) {
-    const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8085/api';
+    const apiBase = process.env.NEXT_PUBLIC_API_URL || '';
     const host = apiBase.replace(/\/api\/?$/, '');
-    return `${host}${imagePath}`;
+    return host ? `${host}${imagePath}` : imagePath;
   }
   return imagePath;
 }
