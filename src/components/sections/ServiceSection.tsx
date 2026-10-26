@@ -7,27 +7,29 @@ import { SectionId, Service } from '@/types';
 
 interface ServiceSectionProps {
   scrollTo: (id: SectionId) => void;
+  initialServices?: Service[];
 }
 
-export default function ServiceSection({ scrollTo }: ServiceSectionProps) {
-  const [services, setServices] = useState<Service[]>([]);
+export default function ServiceSection({ scrollTo, initialServices = [] }: ServiceSectionProps) {
+  const [services, setServices] = useState<Service[]>(initialServices);
 
   useEffect(() => {
-    fetchPublicServices().then((data) => {
-      if (data && Array.isArray(data)) {
-        const mapped = data.map((s: unknown) => {
-          const item = s as Record<string, unknown>;
-          return {
-            title: typeof item.title === 'string' ? item.title : '',
-            iconClass: typeof item.icon_class === 'string' ? item.icon_class : 'fi flaticon-laptop',
-            desc: typeof item.description === 'string' ? item.description : '',
-          };
-        });
-        setServices(mapped);
-      }
-    });
-  }, []);
-
+    if (initialServices.length === 0) {
+      fetchPublicServices().then((data) => {
+        if (data && Array.isArray(data)) {
+          const mapped = data.map((s: unknown) => {
+            const item = s as Record<string, unknown>;
+            return {
+              title: typeof item.title === 'string' ? item.title : '',
+              iconClass: typeof item.icon_class === 'string' ? item.icon_class : 'fi flaticon-laptop',
+              desc: typeof item.description === 'string' ? item.description : '',
+            };
+          });
+          setServices(mapped);
+        }
+      });
+    }
+  }, [initialServices]);
   return (
     <div id="service" className="service-area section-padding">
       <div className="borderd"></div>

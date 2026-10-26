@@ -5,11 +5,16 @@ import PolygonDivider from '@/components/common/PolygonDivider';
 import { fetchPublicProjects, getProjectImageUrl } from '@/lib/apiClient';
 import { Project } from '@/types';
 
-export default function PortfolioSection() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+interface PortfolioSectionProps {
+  initialProjects?: Project[];
+}
+
+export default function PortfolioSection({ initialProjects = [] }: PortfolioSectionProps) {
+  const [projects, setProjects] = useState<Project[]>(initialProjects);
+  const [loading, setLoading] = useState<boolean>(initialProjects.length === 0);
 
   useEffect(() => {
+    if (initialProjects.length === 0) {
     fetchPublicProjects()
       .then((data) => {
         if (data && Array.isArray(data)) {
@@ -38,7 +43,8 @@ export default function PortfolioSection() {
         setProjects([]);
         setLoading(false);
       });
-  }, []);
+    }
+  }, [initialProjects]);
 
   return (
     <div id="portfolio" className="tp-protfolio-area section-padding">

@@ -5,28 +5,32 @@ import PolygonDivider from '@/components/common/PolygonDivider';
 import TechIcon from '@/components/common/TechIcon';
 import { fetchPublicSkills } from '@/lib/apiClient';
 import { TechItem } from '@/types';
+interface SkillsSectionProps {
+  initialSkills?: TechItem[];
+}
 
-export default function SkillsSection() {
-  const [skills, setSkills] = useState<TechItem[]>([]);
+export default function SkillsSection({ initialSkills = [] }: SkillsSectionProps) {
+  const [skills, setSkills] = useState<TechItem[]>(initialSkills);
   const [hoveredTech, setHoveredTech] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchPublicSkills().then((data) => {
-      if (data && Array.isArray(data)) {
-        const mapped: TechItem[] = data.map((sk: unknown) => {
-          const item = sk as Record<string, unknown>;
-          return {
-            name: typeof item.name === 'string' ? item.name : '',
-            category: typeof item.category === 'string' ? item.category : '',
-            color: typeof item.color === 'string' ? item.color : '#3b82f6',
-            icon: typeof item.icon === 'string' ? item.icon : undefined,
-          };
-        });
-        setSkills(mapped);
-      }
-    });
-  }, []);
-
+    if (initialSkills.length === 0) {
+      fetchPublicSkills().then((data) => {
+        if (data && Array.isArray(data)) {
+          const mapped: TechItem[] = data.map((sk: unknown) => {
+            const item = sk as Record<string, unknown>;
+            return {
+              name: typeof item.name === 'string' ? item.name : '',
+              category: typeof item.category === 'string' ? item.category : '',
+              color: typeof item.color === 'string' ? item.color : '#3b82f6',
+              icon: typeof item.icon === 'string' ? item.icon : undefined,
+            };
+          });
+          setSkills(mapped);
+        }
+      });
+    }
+  }, [initialSkills]);
   return (
     <section id="skills" className="pricing-section section-padding">
       <div className="container">

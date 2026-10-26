@@ -13,7 +13,7 @@ interface HeroSectionProps {
 export default function HeroSection({ scrollTo, profile }: HeroSectionProps) {
   const bgImg = profile?.hero_image
     ? `url(${getProjectImageUrl(profile.hero_image)})`
-    : 'url(/images/user_slide.jpg)';
+    : undefined;
 
   return (
     <section id="home" className="hero hero-slider-wrapper hero-style-1">
@@ -31,12 +31,12 @@ export default function HeroSection({ scrollTo, profile }: HeroSectionProps) {
             <div className="row">
               <div className="col col-md-10 col-sm-12 slide-caption">
                 <div className="slide-subtitle">
-                  <h4>{profile?.subtitle || (profile?.name ? `I am ${profile.name}` : 'I am Nguyễn Quốc Bảo')}</h4>
+                  <h4>{profile?.subtitle || (profile?.name ? `I am ${profile.name}` : '')}</h4>
                 </div>
                 <div className="slide-title">
-                  <h2>{profile?.title || 'Full Stack Developer'}</h2>
+                  <h2>{profile?.title || ''}</h2>
                 </div>
-                <div className="btns">
+                <div className="btns" style={{ display: 'flex', gap: '15px', flexWrap: 'wrap', alignItems: 'center' }}>
                   <a
                     href="#contact"
                     onClick={(e) => {
@@ -47,6 +47,23 @@ export default function HeroSection({ scrollTo, profile }: HeroSectionProps) {
                   >
                     Contact Me
                   </a>
+                  {profile?.resume_url && profile.resume_url !== '#' && (
+                    <a
+                      href={getProjectImageUrl(profile.resume_url)}
+                      target="_blank"
+                      rel="noreferrer"
+                      download
+                      className="template-btn"
+                      style={{
+                        backgroundColor: 'transparent',
+                        color: '#ffffff',
+                        border: '1px solid rgba(255, 255, 255, 0.45)',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      Download CV <i className="fa fa-download" style={{ marginLeft: '8px' }}></i>
+                    </a>
+                  )}
                 </div>
               </div>
             </div>

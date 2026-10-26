@@ -33,7 +33,7 @@ export default function ContactSection({
                     </div>
                     <div className="office-info-text">
                       <h2>Address</h2>
-                      <p>{profile?.address || 'Ho Chi Minh City, Vietnam'}</p>
+                      <p>{profile?.address || ''}</p>
                     </div>
                   </div>
                 </div>
@@ -45,7 +45,7 @@ export default function ContactSection({
                     </div>
                     <div className="office-info-text">
                       <h2>Email Us</h2>
-                      <p>{profile?.email || 'nbao76296@gmail.com'}</p>
+                      <p>{profile?.email || ''}</p>
                     </div>
                   </div>
                 </div>
@@ -57,7 +57,7 @@ export default function ContactSection({
                     </div>
                     <div className="office-info-text">
                       <h2>Call Now</h2>
-                      <p>{profile?.phone || '+84 399 609 008'}</p>
+                      <p>{profile?.phone || ''}</p>
                     </div>
                   </div>
                 </div>

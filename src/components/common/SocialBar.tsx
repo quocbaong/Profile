@@ -7,11 +7,11 @@ interface SocialBarProps {
 
 export default function SocialBar({ profile }: SocialBarProps) {
   const socialLinks = [
-    { name: 'GitHub', url: profile?.github_url || 'https://github.com/quocbaong', icon: 'fa fa-github' },
-    { name: 'LinkedIn', url: profile?.linkedin_url || 'https://www.linkedin.com/in/ngquocbao-dev106/', icon: 'fa fa-linkedin' },
-    { name: 'Facebook', url: profile?.facebook_url || 'https://www.facebook.com/qbao.henry', icon: 'fa fa-facebook' },
-    { name: 'Instagram', url: profile?.instagram_url || 'https://www.instagram.com/quocbao.106/', icon: 'fa fa-instagram' },
-  ];
+    { name: 'GitHub', url: profile?.github_url, icon: 'fa fa-github' },
+    { name: 'LinkedIn', url: profile?.linkedin_url, icon: 'fa fa-linkedin' },
+    { name: 'Facebook', url: profile?.facebook_url, icon: 'fa fa-facebook' },
+    { name: 'Instagram', url: profile?.instagram_url, icon: 'fa fa-instagram' },
+  ].filter((s): s is { name: string; url: string; icon: string } => Boolean(s.url && s.url !== '#'));
 
   return (
     <div className="right-social-bar">

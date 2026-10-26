@@ -1,12 +1,14 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
+function getApiBaseUrl(): string {
+  return process.env.NEXT_PUBLIC_API_URL || process.env.API_URL || '';
+}
 
 export function getProjectImageUrl(imagePath?: string): string {
-  if (!imagePath) return '/images/project2.jpg';
+  if (!imagePath) return '';
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
     return imagePath;
   }
   if (imagePath.startsWith('/uploads')) {
-    const apiBase = process.env.NEXT_PUBLIC_API_URL || '';
+    const apiBase = getApiBaseUrl();
     const host = apiBase.replace(/\/api\/?$/, '');
     return host ? `${host}${imagePath}` : imagePath;
   }
@@ -14,8 +16,10 @@ export function getProjectImageUrl(imagePath?: string): string {
 }
 
 export async function fetchPublicProjects() {
+  const baseUrl = getApiBaseUrl();
+  if (!baseUrl) return [];
   try {
-    const res = await fetch(`${API_BASE_URL}/projects`, { cache: 'no-store' });
+    const res = await fetch(`${baseUrl}/projects`, { cache: 'no-store' });
     if (!res.ok) {
       throw new Error('Failed to fetch projects');
     }
@@ -28,8 +32,10 @@ export async function fetchPublicProjects() {
 }
 
 export async function fetchPublicProfile() {
+  const baseUrl = getApiBaseUrl();
+  if (!baseUrl) return null;
   try {
-    const res = await fetch(`${API_BASE_URL}/profile`, { cache: 'no-store' });
+    const res = await fetch(`${baseUrl}/profile`, { cache: 'no-store' });
     if (!res.ok) {
       if (res.status === 404) return null;
       throw new Error('Failed to fetch profile');
@@ -43,8 +49,10 @@ export async function fetchPublicProfile() {
 }
 
 export async function fetchPublicServices() {
+  const baseUrl = getApiBaseUrl();
+  if (!baseUrl) return [];
   try {
-    const res = await fetch(`${API_BASE_URL}/services`, { cache: 'no-store' });
+    const res = await fetch(`${baseUrl}/services`, { cache: 'no-store' });
     if (!res.ok) throw new Error('Failed to fetch services');
     const json = await res.json();
     return json.data || [];
@@ -55,8 +63,10 @@ export async function fetchPublicServices() {
 }
 
 export async function fetchPublicSkills() {
+  const baseUrl = getApiBaseUrl();
+  if (!baseUrl) return [];
   try {
-    const res = await fetch(`${API_BASE_URL}/skills`, { cache: 'no-store' });
+    const res = await fetch(`${baseUrl}/skills`, { cache: 'no-store' });
     if (!res.ok) throw new Error('Failed to fetch skills');
     const json = await res.json();
     return json.data || [];
@@ -73,7 +83,8 @@ export async function submitContactForm(data: {
   subject: string;
   message: string;
 }) {
-  const res = await fetch(`${API_BASE_URL}/contact`, {
+  const baseUrl = getApiBaseUrl();
+  const res = await fetch(`${baseUrl}/contact`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

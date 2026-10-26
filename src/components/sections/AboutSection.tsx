@@ -13,11 +13,9 @@ interface AboutSectionProps {
 export default function AboutSection({ scrollTo, profile }: AboutSectionProps) {
   const photo = profile?.about_image
     ? getProjectImageUrl(profile.about_image)
-    : '/images/profile.jpg';
+    : '';
 
-  const defaultDesc = `I’m a fourth-year IT student at Industrial University of Ho Chi Minh City (IUH) on my journey to becoming a professional Software Engineer. I’m passionate about modern software architectures, enterprise backend systems, and crafting responsive web and mobile digital experiences that solve real-world problems.\n\nThrough hands-on projects spanning full-featured web platforms, desktop database systems, and cross-platform mobile apps, I have developed strong logical thinking, rapid problem-solving capabilities, and effective team collaboration skills.`;
-
-  const paragraphs = (profile?.about_description || defaultDesc).split('\n\n');
+  const paragraphs = (profile?.about_description || '').split('\n\n').filter(Boolean);
 
   return (
     <section id="about" className="tp-about-section">
@@ -35,11 +33,13 @@ export default function AboutSection({ scrollTo, profile }: AboutSectionProps) {
                   border: '1px solid rgba(255,255,255,0.1)',
                 }}
               >
-                <img
-                  src={photo}
-                  alt={profile?.name || 'Nguyễn Quốc Bảo'}
-                  style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
-                />
+                {photo ? (
+                  <img
+                    src={photo}
+                    alt={profile?.name || 'About'}
+                    style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
+                  />
+                ) : null}
               </div>
             </div>
           </div>
@@ -48,22 +48,41 @@ export default function AboutSection({ scrollTo, profile }: AboutSectionProps) {
           <div className="col-lg-7 col-md-12 col-12">
             <div className="tp-about-text">
               <div className="tp-about-icon-content">
-                <h2>{profile?.about_title || 'Professional And Dedicated Full Stack Developer'}</h2>
+                <h2>{profile?.about_title || ''}</h2>
                 {paragraphs.map((p, idx) => (
                   <p key={idx} style={{ marginBottom: '1rem', lineHeight: 1.7 }}>
                     {p}
                   </p>
                 ))}
                 <div className="about-author-box">
-                  <div className="author-name">{profile?.name || 'Nguyễn Quốc Bảo'}</div>
-                  <div className="author-role">{profile?.title || 'Software Engineer'}</div>
+                  <div className="author-name">{profile?.name || ''}</div>
+                  <div className="author-role">{profile?.title || ''}</div>
                 </div>
-                <button
-                  onClick={() => scrollTo('contact')}
-                  className="template-btn about-btn-contact"
-                >
-                  Get In Touch
-                </button>
+                <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap', alignItems: 'center' }}>
+                  <button
+                    onClick={() => scrollTo('contact')}
+                    className="template-btn about-btn-contact"
+                  >
+                    Get In Touch
+                  </button>
+                  {profile?.resume_url && profile.resume_url !== '#' && (
+                    <a
+                      href={getProjectImageUrl(profile.resume_url)}
+                      target="_blank"
+                      rel="noreferrer"
+                      download
+                      className="template-btn about-btn-contact"
+                      style={{
+                        backgroundColor: 'transparent',
+                        color: '#ffffff',
+                        border: '1px solid rgba(255, 255, 255, 0.45)',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      Download CV <i className="fa fa-download" style={{ marginLeft: '8px' }}></i>
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           </div>
