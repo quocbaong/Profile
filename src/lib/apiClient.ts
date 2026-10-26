@@ -30,7 +30,10 @@ export async function fetchPublicProjects() {
 export async function fetchPublicProfile() {
   try {
     const res = await fetch(`${API_BASE_URL}/profile`, { cache: 'no-store' });
-    if (!res.ok) throw new Error('Failed to fetch profile');
+    if (!res.ok) {
+      if (res.status === 404) return null;
+      throw new Error('Failed to fetch profile');
+    }
     const json = await res.json();
     return json.data || null;
   } catch (err) {
