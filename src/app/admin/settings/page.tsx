@@ -4,13 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { updateAdminProfile, uploadImageFile } from '@/lib/adminApi';
 import { getProjectImageUrl } from '@/lib/apiClient';
 import { useAdminData } from '@/context/AdminDataContext';
-import { Save, Upload, CheckCircle2, User, Mail, Globe, Sparkles } from 'lucide-react';
+import { Save, Upload, CheckCircle2, User, Mail, Globe, Sparkles, FileText, ExternalLink } from 'lucide-react';
 
 export default function AdminSettingsPage() {
   const { profile, refreshProfile } = useAdminData();
   const [saving, setSaving] = useState(false);
   const [uploadingHero, setUploadingHero] = useState(false);
   const [uploadingAbout, setUploadingAbout] = useState(false);
+  const [uploadingCV, setUploadingCV] = useState(false);
   const [statusMsg, setStatusMsg] = useState({ text: '', isError: false });
 
   const [formData, setFormData] = useState({
@@ -70,6 +71,24 @@ export default function AdminSettingsPage() {
       else setUploadingAbout(false);
     }
   };
+  const handleUploadCV = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    const file = files[0];
+    setUploadingCV(true);
+    try {
+      const res = await uploadImageFile(file);
+      if (res && res.url) {
+        setFormData((prev) => ({ ...prev, resume_url: res.url }));
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Tải file CV thất bại';
+      alert(msg);
+    } finally {
+      setUploadingCV(false);
+    }
+  };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,10 +98,8 @@ export default function AdminSettingsPage() {
     try {
       await updateAdminProfile(formData);
       await refreshProfile();
+      setStatusMsg({ text: 'Cập nhật thông tin thành công!', isError: false });
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Lưu thất bại';
-      setStatusMsg({ text: `Lỗi: ${msg}`, isError: true });
-    } finally {
       setSaving(false);
       setTimeout(() => setStatusMsg({ text: '', isError: false }), 4000);
     }
@@ -227,6 +244,80 @@ export default function AdminSettingsPage() {
                 <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <img src={getProjectImageUrl(formData.about_image)} alt="About Preview" style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '50%', border: '1px solid #cbd5e1' }} />
                   <span style={{ fontSize: '0.75rem', color: '#64748b' }}>{formData.about_image}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Card: Hồ sơ năng lực & CV */}
+          <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '0.75rem', padding: '1.75rem', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem', borderBottom: '1px solid #f1f5f9', paddingBottom: '0.75rem' }}>
+              <FileText size={20} color="#2563eb" />
+              <h2 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#0f172a', margin: 0 }}>Hồ sơ năng lực & CV (Curriculum Vitae)</h2>
+            </div>
+
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.375rem' }}>
+                <label style={{ fontSize: '0.875rem', fontWeight: 600, color: '#334155' }}>File CV cá nhân (PDF/DOCX) hoặc Link tải</label>
+                <span style={{ fontSize: '0.75rem', color: '#64748b' }}>Hỗ trợ PDF, DOC, DOCX lên Supabase Cloud</span>
+              </div>
+              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                <input
+                  type="text"
+                  value={formData.resume_url}
+                  onChange={(e) => setFormData({ ...formData, resume_url: e.target.value })}
+                  placeholder="Link tải CV hoặc bấm Tải file CV..."
+                  style={{ flex: 1, backgroundColor: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '0.5rem', padding: '0.625rem 0.875rem', color: '#0f172a', outline: 'none' }}
+                />
+                <label style={{
+                  backgroundColor: '#f1f5f9',
+                  border: '1px solid #cbd5e1',
+                  color: '#334155',
+                  padding: '0.625rem 1.25rem',
+                  borderRadius: '0.5rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  whiteSpace: 'nowrap',
+                }}>
+                  <Upload size={16} /> {uploadingCV ? 'Đang tải...' : 'Tải file CV (PDF)'}
+                  <input type="file" accept=".pdf,.doc,.docx" onChange={handleUploadCV} style={{ display: 'none' }} />
+                </label>
+              </div>
+
+              {formData.resume_url && formData.resume_url !== '#' && (
+                <div style={{ marginTop: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem 1rem', backgroundColor: '#eff6ff', borderRadius: '0.5rem', border: '1px solid #bfdbfe' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 0 }}>
+                    <FileText size={18} color="#2563eb" style={{ flexShrink: 0 }} />
+                    <span style={{ fontSize: '0.8125rem', color: '#1e40af', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {formData.resume_url}
+                    </span>
+                  </div>
+                  <a
+                    href={getProjectImageUrl(formData.resume_url)}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      fontSize: '0.8125rem',
+                      color: '#2563eb',
+                      fontWeight: 600,
+                      textDecoration: 'none',
+                      backgroundColor: '#ffffff',
+                      border: '1px solid #bfdbfe',
+                      padding: '0.35rem 0.75rem',
+                      borderRadius: '0.375rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <span>Xem thử CV</span>
+                    <ExternalLink size={13} />
+                  </a>
                 </div>
               )}
             </div>

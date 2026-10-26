@@ -36,7 +36,7 @@ export default function HeroSection({ scrollTo, profile }: HeroSectionProps) {
                 <div className="slide-title">
                   <h2>{profile?.title || ''}</h2>
                 </div>
-                <div className="btns" style={{ display: 'flex', gap: '15px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <div className="btns">
                   <a
                     href="#contact"
                     onClick={(e) => {
@@ -47,23 +47,6 @@ export default function HeroSection({ scrollTo, profile }: HeroSectionProps) {
                   >
                     Contact Me
                   </a>
-                  {profile?.resume_url && profile.resume_url !== '#' && (
-                    <a
-                      href={getProjectImageUrl(profile.resume_url)}
-                      target="_blank"
-                      rel="noreferrer"
-                      download
-                      className="template-btn"
-                      style={{
-                        backgroundColor: 'transparent',
-                        color: '#ffffff',
-                        border: '1px solid rgba(255, 255, 255, 0.45)',
-                        textDecoration: 'none',
-                      }}
-                    >
-                      Download CV <i className="fa fa-download" style={{ marginLeft: '8px' }}></i>
-                    </a>
-                  )}
                 </div>
               </div>
             </div>
