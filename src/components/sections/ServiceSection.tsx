@@ -30,6 +30,11 @@ export default function ServiceSection({ scrollTo, initialServices = [] }: Servi
       });
     }
   }, [initialServices]);
+  const getColClass = (count: number) => {
+    if (count === 2 || count === 4) return 'col-xl-6 col-lg-6 col-md-6 col-sm-12';
+    return 'col-xl-4 col-lg-6 col-md-6 col-sm-12';
+  };
+
   return (
     <div id="service" className="service-area section-padding">
       <div className="borderd"></div>
@@ -41,10 +46,10 @@ export default function ServiceSection({ scrollTo, initialServices = [] }: Servi
           </div>
         </div>
 
-        <div className="row">
+        <div className={`row ${services.length === 1 ? '' : 'justify-content-center'}`}>
           {services.map((service, idx) => (
-            <div key={idx} className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-              <div className="service-section">
+            <div key={idx} className={`${getColClass(services.length)} d-flex`}>
+              <div className="service-section w-100 d-flex flex-column">
                 <div className="services-wrapper">
                   <div className="services-icon-wrapper">
                     <div className="service-dot">
