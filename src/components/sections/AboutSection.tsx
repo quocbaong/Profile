@@ -1,16 +1,98 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PolygonDivider from '@/components/common/PolygonDivider';
-import { getProjectImageUrl } from '@/lib/apiClient';
-import { SectionId, ProfileInfo } from '@/types';
+import TechIcon from '@/components/common/TechIcon';
+import { getProjectImageUrl, fetchPublicSkills } from '@/lib/apiClient';
+import { SectionId, ProfileInfo, TechItem } from '@/types';
 
 interface AboutSectionProps {
   scrollTo: (id: SectionId) => void;
   profile?: ProfileInfo | null;
+  initialSkills?: TechItem[];
 }
 
-export default function AboutSection({ scrollTo, profile }: AboutSectionProps) {
+interface TechSubGroup {
+  id: string;
+  match: (item: TechItem) => boolean;
+}
+
+interface TechMainCategory {
+  id: string;
+  label: string;
+  subGroups: TechSubGroup[];
+}
+
+const TECH_CATEGORIES: TechMainCategory[] = [
+  {
+    id: 'languages',
+    label: 'Languages',
+    subGroups: [
+      {
+        id: 'languages',
+        match: (s) => (s.category || '').toLowerCase() === 'language',
+      },
+    ],
+  },
+  {
+    id: 'frameworks_libraries',
+    label: 'Frameworks/Libraries',
+    subGroups: [
+      {
+        // Sub-line 1: Frontend
+        id: 'frontend',
+        match: (s) => (s.category || '').toLowerCase() === 'frontend',
+      },
+      {
+        // Sub-line 2: Backend
+        id: 'backend',
+        match: (s) => (s.category || '').toLowerCase() === 'backend',
+      },
+    ],
+  },
+  {
+    id: 'cloud_devops',
+    label: 'Cloud/DevOps',
+    subGroups: [
+      {
+        // Sub-line 1: Database & Server Storage
+        id: 'database',
+        match: (s) => (s.category || '').toLowerCase() === 'database',
+      },
+      {
+        // Sub-line 2: Cloud, DevOps & Tools
+        id: 'cloud_devops',
+        match: (s) => {
+          const c = (s.category || '').toLowerCase();
+          return c === 'devops' || c === 'tools';
+        },
+      },
+    ],
+  },
+];
+
+export default function AboutSection({ scrollTo, profile, initialSkills = [] }: AboutSectionProps) {
+  const [skills, setSkills] = useState<TechItem[]>(initialSkills);
+
+  useEffect(() => {
+    if (initialSkills.length === 0) {
+      fetchPublicSkills().then((data) => {
+        if (data && Array.isArray(data)) {
+          const mapped: TechItem[] = data.map((sk: unknown) => {
+            const item = sk as Record<string, unknown>;
+            return {
+              name: typeof item.name === 'string' ? item.name : '',
+              category: typeof item.category === 'string' ? item.category : '',
+              color: typeof item.color === 'string' ? item.color : '#3b82f6',
+              icon: typeof item.icon === 'string' ? item.icon : undefined,
+            };
+          });
+          setSkills(mapped);
+        }
+      });
+    }
+  }, [initialSkills]);
+
   const photo = profile?.about_image
     ? getProjectImageUrl(profile.about_image)
     : '';
@@ -77,6 +159,47 @@ export default function AboutSection({ scrollTo, profile }: AboutSectionProps) {
                     </a>
                   )}
                 </div>
+
+                {/* Tech Stack Embedded - 3 Main Categories with Sub-lines */}
+                {skills.length > 0 && (
+                  <div className="about-tech-stack">
+                    <div className="about-tech-stack-heading">Skills</div>
+                    <div className="about-tech-rows">
+                      {TECH_CATEGORIES.map((cat) => {
+                        const hasSkills = cat.subGroups.some((sg) => skills.some((s) => sg.match(s)));
+                        if (!hasSkills) return null;
+
+                        return (
+                          <div key={cat.id} className="about-tech-row">
+                            <div className="about-tech-row-label">{cat.label}</div>
+                            <div className="about-tech-sublines">
+                              {cat.subGroups.map((sg) => {
+                                const subSkills = skills.filter((s) => sg.match(s));
+                                if (subSkills.length === 0) return null;
+
+                                return (
+                                  <div key={sg.id} className="about-tech-subline">
+                                    {subSkills.map((tech) => (
+                                      <div key={tech.name} className="about-tech-pill">
+                                        <span
+                                          className="about-tech-pill-icon"
+                                          style={{ color: tech.color || '#ffffff' }}
+                                        >
+                                          <TechIcon name={tech.name} icon={tech.icon} monochrome={false} />
+                                        </span>
+                                        <span className="about-tech-pill-name">{tech.name}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

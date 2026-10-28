@@ -21,7 +21,6 @@ export default function Header({
     { id: 'about', label: 'About Me' },
     { id: 'service', label: 'Service' },
     { id: 'portfolio', label: 'Portfolio' },
-    { id: 'skills', label: 'Skills' },
     { id: 'contact', label: 'Contact' },
   ];
 

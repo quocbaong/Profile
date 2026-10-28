@@ -10,7 +10,6 @@ import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
 import ServiceSection from '@/components/sections/ServiceSection';
 import PortfolioSection from '@/components/sections/PortfolioSection';
-import SkillsSection from '@/components/sections/SkillsSection';
 import ContactSection from '@/components/sections/ContactSection';
 import { SectionId, ContactFormData, ProfileInfo, Project, Service, TechItem } from '@/types';
 
@@ -60,7 +59,7 @@ export default function PortfolioClient({
   // Scroll spy to update active nav link
   useEffect(() => {
     const handleScroll = () => {
-      const sections: SectionId[] = ['home', 'about', 'service', 'portfolio', 'skills', 'contact'];
+      const sections: SectionId[] = ['home', 'about', 'service', 'portfolio', 'contact'];
       const scrollPos = window.scrollY + 200;
 
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -115,10 +114,9 @@ export default function PortfolioClient({
       {/* Main Page Content Area */}
       <div className="page-wrapper">
         <HeroSection scrollTo={scrollTo} profile={profile} />
-        <AboutSection scrollTo={scrollTo} profile={profile} />
+        <AboutSection scrollTo={scrollTo} profile={profile} initialSkills={initialSkills} />
         <ServiceSection scrollTo={scrollTo} initialServices={initialServices} />
         <PortfolioSection initialProjects={initialProjects} />
-        <SkillsSection initialSkills={initialSkills} />
         <ContactSection
           formData={formData}
           setFormData={setFormData}
