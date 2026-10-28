@@ -48,6 +48,15 @@ export default function PortfolioClient({
     }
   }, [profile]);
 
+  // Always reset scroll to top (Home) on page load / F5 refresh
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+    setActiveSection('home');
+  }, []);
+
   // Scroll spy to update active nav link
   useEffect(() => {
     const handleScroll = () => {
