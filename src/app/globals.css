@@ -19676,7 +19676,8 @@ h6,
 .about-btn-contact {
     height: 50px !important;
     line-height: 1 !important;
-    padding: 0 38px !important;
+    padding: 0 24px !important;
+    min-width: 210px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -19702,6 +19703,14 @@ h6,
     border-color: rgba(255, 255, 255, 0.75) !important;
     transform: translateY(-2px) !important;
     box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15) !important;
+}
+
+@media (max-width: 575px) {
+    .tp-about-text .template-btn,
+    .about-btn-contact {
+        min-width: 100% !important;
+        width: 100% !important;
+    }
 }
 
 /* Technologies I Use Grid: 3x3 layout on desktop */

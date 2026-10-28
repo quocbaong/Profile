@@ -72,12 +72,6 @@ export default function AboutSection({ scrollTo, profile }: AboutSectionProps) {
                       rel="noreferrer"
                       download
                       className="template-btn about-btn-contact"
-                      style={{
-                        backgroundColor: 'transparent',
-                        color: '#ffffff',
-                        border: '1px solid rgba(255, 255, 255, 0.45)',
-                        textDecoration: 'none',
-                      }}
                     >
                       Download CV <i className="fa fa-download" style={{ marginLeft: '8px' }}></i>
                     </a>
